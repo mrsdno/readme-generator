@@ -1,5 +1,7 @@
 // TODO: Include packages needed for this application
 const inquirer = require('inquirer');
+const generateMarkdown = require('./utils/generateMarkdown');
+const fs = require('fs');
 
 
 // TODO: Create an array of questions for user input
@@ -30,23 +32,23 @@ const questions = [
             }
         }
     }, 
-    {
-        type: 'confirm',
-        name: 'confirmInstall',
-        message: "Does your project require installation?",
-        default: false
-    },
+    // {
+    //     type: 'confirm',
+    //     name: 'confirmInstall',
+    //     message: "Does your project require installation?",
+    //     default: false
+    // },
     {
         type: 'input',
         name: 'installation',
         message: "What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.",
-        when: ({ confirmInstall }) => {
-            if (confirmInstall) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        // when: ({ confirmInstall }) => {
+        //     if (confirmInstall) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
     },
     {
         type: 'input',
@@ -64,23 +66,23 @@ const questions = [
         message: 'Choose a license to associate with your project:',
         choices: ['Apache License 2.0', 'MIT', 'GNU GPLv3', 'ES6', 'Boost Software License 1.0', 'The Unlicense']
     },
-    {
-        type: 'confirm',
-        name: 'confirmTest',
-        message: "Do you have instructions on how to run tests your project?",
-        default: false
-    },
+    // {
+    //     type: 'confirm',
+    //     name: 'confirmTest',
+    //     message: "Do you have instructions on how to run tests your project?",
+    //     default: false
+    // },
     {
         type: 'input',
-        name: 'instructions',
+        name: 'tests',
         message: 'Provide instructions on how to run tests on your project.',
-        when: ({ confirmTest }) => {
-            if (confirmTest) {
-                return true;
-            } else {
-                return false;
-            }
-        }
+        // when: ({ confirmTest }) => {
+        //     if (confirmTest) {
+        //         return true;
+        //     } else {
+        //         return false;
+        //     }
+        // }
     },
     {
         type: 'input',
@@ -95,13 +97,24 @@ const questions = [
 ]
 
 
-inquirer.prompt(questions).then((answers) => {
-    console.log(answers);
-})
+inquirer
+    .prompt(questions)
+    .then((data) => {
+        return generateMarkdown(data);
+    })
+    .then(readmeMD =>
+        writeToFile(readmeMD));
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {
-    
+const writeToFile = (fileContent) => {
+    fs.writeFile('./dist/readme.MD', fileContent, err => {
+        if(err) {
+            console.log(err);
+        } 
+
+       console.log("readme.MD created!");
+
+    })
 }
 
 // TODO: Create a function to initialize app
