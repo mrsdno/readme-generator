@@ -28,6 +28,8 @@
 
   Once the prompts are complete, a README.md file will be created with the information you provided in the **/dist** folder. Copy the file over to your application for use.
 
+  You can find a video tutorial showing how to use this application on my [youtube](https://youtu.be/xDJVrMvxXvg) channel!
+
   ## Contributing
 
   The [Inquirer](https://www.npmjs.com/package/inquirer) npm package was used to create the interactive command line user interface.
