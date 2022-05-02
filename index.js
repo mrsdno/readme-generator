@@ -1,10 +1,9 @@
-// TODO: Include packages needed for this application
 const inquirer = require('inquirer');
 const generateMarkdown = require('./utils/generateMarkdown');
 const fs = require('fs');
 
 
-// TODO: Create an array of questions for user input
+// Array of questions for user input
 const questions = [
     {
         type: 'input',
@@ -32,23 +31,10 @@ const questions = [
             }
         }
     }, 
-    // {
-    //     type: 'confirm',
-    //     name: 'confirmInstall',
-    //     message: "Does your project require installation?",
-    //     default: false
-    // },
     {
         type: 'input',
         name: 'installation',
         message: "What are the steps required to install your project? Provide a step-by-step description of how to get the development environment running.",
-        // when: ({ confirmInstall }) => {
-        //     if (confirmInstall) {
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // }
     },
     {
         type: 'input',
@@ -66,23 +52,10 @@ const questions = [
         message: 'Choose a license to associate with your project:',
         choices: ['Apache', 'Boost', 'BSD', 'MIT', 'Eclipse', 'GNU']
     },
-    // {
-    //     type: 'confirm',
-    //     name: 'confirmTest',
-    //     message: "Do you have instructions on how to run tests your project?",
-    //     default: false
-    // },
     {
         type: 'input',
         name: 'tests',
         message: 'Provide instructions on how to run tests on your project.',
-        // when: ({ confirmTest }) => {
-        //     if (confirmTest) {
-        //         return true;
-        //     } else {
-        //         return false;
-        //     }
-        // }
     },
     {
         type: 'input',
@@ -96,29 +69,28 @@ const questions = [
     },
 ]
 
+// Function to initialize app
+function init() {
+    inquirer
+        .prompt(questions)
+        .then((data) => {
+            return generateMarkdown(data);
+        })
+        .then(readmeMD =>
+            writeToFile(readmeMD));
 
-inquirer
-    .prompt(questions)
-    .then((data) => {
-        return generateMarkdown(data);
-    })
-    .then(readmeMD =>
-        writeToFile(readmeMD));
+    // Function that writes README file
+    const writeToFile = (fileContent) => {
+        fs.writeFile('./dist/README.md', fileContent, err => {
+            if(err) {
+                console.log(err);
+            } 
 
-// TODO: Create a function to write README file
-const writeToFile = (fileContent) => {
-    fs.writeFile('./dist/readme.MD', fileContent, err => {
-        if(err) {
-            console.log(err);
-        } 
-
-       console.log("readme.MD created!");
-
-    })
+        console.log("readme.MD created!");
+        })
+    }
 }
 
-// TODO: Create a function to initialize app
-function init() {}
 
 // Function call to initialize app
 init();
