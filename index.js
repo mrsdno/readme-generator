@@ -64,7 +64,7 @@ const questions = [
         type: 'list',
         name: 'license',
         message: 'Choose a license to associate with your project:',
-        choices: ['Apache License 2.0', 'MIT', 'GNU GPLv3', 'ES6', 'Boost Software License 1.0', 'The Unlicense']
+        choices: ['Apache', 'Boost', 'BSD', 'MIT', 'Eclipse', 'GNU']
     },
     // {
     //     type: 'confirm',
